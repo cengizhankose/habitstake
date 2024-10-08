@@ -1,7 +1,7 @@
 import ClusterPickerFeature from "../components/cluster/cluster-picker-feature";
 import { StyleSheet, View } from "react-native";
 
-export function SettingsScreen() {
+function SettingsScreen() {
   return (
     <>
       <View style={styles.screenContainer}>
@@ -18,3 +18,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default SettingsScreen;

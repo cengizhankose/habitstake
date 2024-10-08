@@ -1,2 +1,12 @@
-export * from "./HomeScreen";
-export * from "./SettingsScreen";
+export { default as HomeScreen } from "./HomeScreen";
+export { default as ProfileScreen } from "./ProfileScreen";
+export { default as SettingsScreen } from "./SettingsScreen";
+export { default as LoginScreen } from "./LoginScreen";
+export { default as SignUpScreen } from "./SignUpScreen";
+export { default as DashboardScreen } from "./DashboardScreen";
+export { default as CreateHabitScreen } from "./CreateHabitScreen";
+export { default as SubmitProofScreen } from "./SubmitProofScreen";
+export { default as HabitSummaryScreen } from "./HabitSummaryScreen";
+export { default as DiscoverHabitsScreen } from "./DiscoverHabitsScreen";
+export { default as LeaderboardScreen } from "./LeaderboardScreen";
+export { default as WelcomeScreen } from "./WelcomeScreen";

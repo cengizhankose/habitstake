@@ -7,7 +7,7 @@ import { useAuthorization } from "../utils/useAuthorization";
 import { AccountDetailFeature } from "../components/account/account-detail-feature";
 import { SignInFeature } from "../components/sign-in/sign-in-feature";
 
-export function HomeScreen() {
+export default function HomeScreen() {
   const { selectedAccount } = useAuthorization();
 
   return (
