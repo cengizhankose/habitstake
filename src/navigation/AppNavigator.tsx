@@ -14,6 +14,7 @@ import {
   SubmitProofScreen,
   HabitSummaryScreen,
   SettingsScreen,
+  LogHabitScreen,
 } from "../screens";
 
 import { StatusBar } from "expo-status-bar";
@@ -24,6 +25,7 @@ import {
 } from "react-native-paper";
 import { HomeNavigator } from "./HomeNavigator";
 import { customColors } from "../../App";
+import { Session } from "@supabase/supabase-js";
 
 type RootStackParamList = {
   Home: undefined;
@@ -60,22 +62,26 @@ const MainStack = () => (
       options={{ headerShown: false }}
     />
     <Stack.Screen name="CreateHabit" component={CreateHabitScreen} />
+    <Stack.Screen name="LogHabit" component={LogHabitScreen} />
     <Stack.Screen name="SubmitProof" component={SubmitProofScreen} />
     <Stack.Screen name="HabitSummary" component={HabitSummaryScreen} />
     <Stack.Screen name="Settings" component={SettingsScreen} />
   </Stack.Navigator>
 );
-const AppStack = () => {
-  const isAuthenticated = true; // Replace with actual auth check
+const AppStack = ({ session }: { session: Session | null }) => {
+  const isAuthenticated = session && session.user; // Replace with actual auth check
 
   return <>{isAuthenticated ? <MainStack /> : <AuthStack />}</>;
 };
 
 export interface NavigationProps
-  extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+  extends Partial<React.ComponentProps<typeof NavigationContainer>> {
+  session: Session | null;
+}
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme();
+  const { session } = props;
   const { LightTheme, DarkTheme } = adaptNavigationTheme({
     reactNavigationLight: NavigationDefaultTheme,
     reactNavigationDark: NavigationDarkTheme,
@@ -106,7 +112,7 @@ export const AppNavigator = (props: NavigationProps) => {
       {...props}
     >
       <StatusBar backgroundColor={customColors.background} />
-      <AppStack />
+      <AppStack session={session} />
     </NavigationContainer>
   );
 };
