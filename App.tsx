@@ -1,6 +1,11 @@
 // Polyfills
 import "./src/polyfills";
 
+import "react-native-url-polyfill/auto";
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "./src/lib/supabase";
+import Auth from "./src/components/Auth";
+
 import { StyleSheet, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -24,6 +29,7 @@ import {
   MD3DarkTheme as PaperDarkTheme,
   MD3LightTheme as PaperLightTheme,
 } from "react-native-paper";
+import { useEffect, useState } from "react";
 
 const queryClient = new QueryClient();
 
@@ -31,10 +37,12 @@ export const customColors = {
   primary: "#3C2874",
   primaryContainer: "#3C2874",
   secondary: "#32BE8F",
+  onSecondary: "#000000",
   secondaryContainer: "#32BE8F",
   tertiary: "#18916C",
   tertiaryContainer: "#18916C",
   surface: "#1E1537",
+  onSurface: "#F3F1FA",
   surfaceVariant: "#1E1537",
   surfaceDisabled: "#1E1537",
   onPrimary: "#F3F1FA",
@@ -48,7 +56,18 @@ export const customColors = {
 };
 
 export default function App() {
-  const colorScheme = useColorScheme();
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   const { LightTheme, DarkTheme } = adaptNavigationTheme({
     reactNavigationLight: NavigationDefaultTheme,
     reactNavigationDark: NavigationDarkTheme,
@@ -99,7 +118,7 @@ export default function App() {
               // }
               theme={CombinedDarkTheme}
             >
-              <AppNavigator />
+              <AppNavigator session={session} />
             </PaperProvider>
           </SafeAreaView>
         </ConnectionProvider>
