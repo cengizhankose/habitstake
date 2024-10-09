@@ -10,3 +10,4 @@ export { default as HabitSummaryScreen } from "./HabitSummaryScreen";
 export { default as DiscoverHabitsScreen } from "./DiscoverHabitsScreen";
 export { default as LeaderboardScreen } from "./LeaderboardScreen";
 export { default as WelcomeScreen } from "./WelcomeScreen";
+export { default as LogHabitScreen } from "./LogHabitScreen";

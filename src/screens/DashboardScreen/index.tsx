@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import {
   Text,
   useTheme,
@@ -8,11 +8,8 @@ import {
   Button,
   IconButton,
 } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { createStyles } from "./style";
-import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
-import { IconProps } from "react-native-paper/lib/typescript/components/MaterialCommunityIcon";
 
 interface Habit {
   id: string;
@@ -53,40 +50,44 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
   ];
 
   const renderHabitItem = ({ item }: { item: Habit }) => (
-    <View style={styles.habitItem}>
-      <View style={styles.habitHeader}>
-        <View
-          style={[styles.habitIconContainer, { backgroundColor: item.color }]}
-        >
-          <MaterialCommunityIcon
-            name={item.icon as any}
-            size={24}
-            color="#FFFFFF"
+    <TouchableOpacity
+      onPress={() => navigation.navigate("LogHabit", { habitName: item.name })}
+    >
+      <View style={styles.habitItem}>
+        <View style={styles.habitHeader}>
+          <View
+            style={[styles.habitIconContainer, { backgroundColor: item.color }]}
+          >
+            <MaterialCommunityIcon
+              name={item.icon as any}
+              size={24}
+              color="#FFFFFF"
+            />
+          </View>
+          <Text style={styles.habitName}>{item.name}</Text>
+          <IconButton
+            icon="dots-vertical"
+            iconColor="#FFFFFF"
+            size={20}
+            onPress={() => {}}
           />
         </View>
-        <Text style={styles.habitName}>{item.name}</Text>
-        <IconButton
-          icon="dots-vertical"
-          iconColor="#FFFFFF"
-          size={20}
-          onPress={() => {}}
-        />
+        <Text style={styles.habitCategory}>{item.category}</Text>
+        <View style={styles.habitProgressContainer}>
+          <ProgressBar
+            progress={item.progress}
+            style={styles.habitProgressBar}
+            color={item.color}
+          />
+          <Text style={styles.habitProgressText}>{`${Math.round(
+            item.progress * 100
+          )}%`}</Text>
+        </View>
+        <Text style={styles.habitSessions}>
+          {`${item.completedSessions} out of ${item.totalSessions} sessions completed`}
+        </Text>
       </View>
-      <Text style={styles.habitCategory}>{item.category}</Text>
-      <View style={styles.habitProgressContainer}>
-        <ProgressBar
-          progress={item.progress}
-          style={styles.habitProgressBar}
-          color={item.color}
-        />
-        <Text style={styles.habitProgressText}>{`${Math.round(
-          item.progress * 100
-        )}%`}</Text>
-      </View>
-      <Text style={styles.habitSessions}>
-        {`${item.completedSessions} out of ${item.totalSessions} sessions completed`}
-      </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   const renderInviteItem = ({
@@ -108,7 +109,7 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.content}>
         <FlatList
           data={habits}
@@ -130,7 +131,7 @@ const DashboardScreen = ({ navigation }: { navigation: any }) => {
         style={styles.addButton}
         iconColor="#000"
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
